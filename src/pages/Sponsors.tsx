@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
-import api from '../services/api';
+
 import { Building2, Star, Award, Gem, Crown, Mail, ArrowRight, ExternalLink } from 'lucide-react';
 
 interface Sponsor {

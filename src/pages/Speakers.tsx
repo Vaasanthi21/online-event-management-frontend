@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
 import { Input } from '../components/ui/input';
-import api from '../services/api';
+
 import { Mic2, Search, Twitter, Linkedin, Globe, ArrowRight, Mail } from 'lucide-react';
 
 interface Speaker {

@@ -5,7 +5,7 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../components/ui/card';
-import { Calendar, User, Mail, Lock, CheckCircle, ArrowRight, Mic2, Building2, Star } from 'lucide-react';
+import { User, Mail, Lock, CheckCircle, ArrowRight, Building2 } from 'lucide-react';
 
 const RegisterOrganizer: React.FC = () => {
   const [fullName, setFullName] = useState('');

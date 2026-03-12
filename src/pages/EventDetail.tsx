@@ -106,7 +106,7 @@ const EventDetail: React.FC = () => {
     setIsRegistering(true);
     setRegistrationError('');
     try {
-      const response = await api.post('/registrations', { event_id: id, ticket_type_id: null });
+      await api.post('/registrations', { event_id: id, ticket_type_id: null });
       setIsRegistered(true);
       setRegistrationSuccess(true);
       // Show success notification

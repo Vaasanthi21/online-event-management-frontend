@@ -5,7 +5,7 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../components/ui/card';
-import { Calendar, User, Mail, Lock, CheckCircle, ArrowRight } from 'lucide-react';
+import { User, Mail, Lock, CheckCircle, ArrowRight } from 'lucide-react';
 
 const Register: React.FC = () => {
   const [fullName, setFullName] = useState('');
@@ -29,7 +29,7 @@ const Register: React.FC = () => {
     setIsLoading(true);
 
     try {
-      await register(email, password, fullName);
+      await register(email, password, fullName, 'attendee');
       navigate('/');
     } catch (err: any) {
       setError(err.response?.data?.message || 'Failed to register');
