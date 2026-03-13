@@ -91,7 +91,7 @@ const RegisterAttendee: React.FC = () => {
               <span className="text-2xl font-bold text-white">Convene</span>
             </div>
             <div className="inline-flex items-center justify-center space-x-2 px-3 py-1 bg-cyan-500/20 rounded-full mb-2">
-              <Users className="h-4 w-4 text-cyan-400" />
+              <User className="h-4 w-4 text-cyan-400" />
               <span className="text-sm text-cyan-300 font-medium">Attendee Account</span>
             </div>
             <CardTitle className="text-3xl font-bold text-white">Create an account</CardTitle>
