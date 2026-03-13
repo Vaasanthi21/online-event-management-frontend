@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Calendar, Users, MessageSquare, BarChart3, Zap, Globe, Video, Mic2, Network, Building2, Star, ArrowRight } from 'lucide-react';
 import api from '../services/api';
-
+import { useAuth } from '../context/AuthContext';
 interface Event {
   id: string;
   title: string;
@@ -20,10 +20,12 @@ interface Event {
 const Home: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-
+  const { user } = useAuth();
+  const navigate = useNavigate();
   useEffect(() => {
     fetchEvents();
   }, []);
+  
 
   const fetchEvents = async () => {
     try {
@@ -33,6 +35,21 @@ const Home: React.FC = () => {
       console.error('Error fetching events:', error);
     } finally {
       setIsLoading(false);
+    }
+  };
+  const handleJoinAttendee = () => {
+    if (user) {
+      navigate('/my-registrations');
+    } else {
+      navigate('/register/attendee');
+    }
+  };
+
+  const handleHostEvents = () => {
+    if (user) {
+      navigate('/dashboard');
+    } else {
+      navigate('/register/organizer');
     }
   };
 
@@ -77,6 +94,11 @@ const Home: React.FC = () => {
           <div className="absolute inset-0 opacity-20" style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
           }} />
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white">
+          Dashboard
+        </h1>
+      </div>
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white animate-fade-in-up">
@@ -94,16 +116,22 @@ const Home: React.FC = () => {
                 Browse Events
               </Button>
             </Link>
-            <Link to="/register/attendee">
-              <Button size="lg" variant="outline" className="border-cyan-400 text-cyan-300 hover:bg-cyan-950/50 hover:text-white hover-lift">
-                Join as Attendee
-              </Button>
-            </Link>
-            <Link to="/register/organizer">
-              <Button size="lg" variant="outline" className="border-violet-400 text-violet-300 hover:bg-violet-950/50 hover:text-white hover-lift">
-                Host Events
-              </Button>
-            </Link>
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-cyan-400 text-cyan-300 hover:bg-cyan-950/50 hover:text-white"
+              onClick={handleJoinAttendee}
+            >
+              Join as Attendee
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-violet-400 text-violet-300 hover:bg-violet-950/50 hover:text-white"
+              onClick={handleHostEvents}
+            >
+              Host Events
+            </Button>
           </div>
         </div>
       </section>

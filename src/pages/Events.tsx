@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Event } from '../types';
 import api from '../services/api';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 import { Input } from '../components/ui/input';
-import { Calendar, MapPin, Users, Search, Clock, ArrowRight } from 'lucide-react';
+import { Calendar, MapPin, Users, Search, Clock } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const Events: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
   const [filteredEvents, setFilteredEvents] = useState<Event[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const { user } = useAuth();
 
   useEffect(() => {
     fetchEvents();
@@ -42,6 +43,21 @@ const Events: React.FC = () => {
     }
   };
 
+  const handleRegister = async (eventId: string) => {
+    if (!user) {
+      alert('Please log in to register');
+      return;
+    }
+
+    try {
+      await api.post('/registrations', { event_id: eventId });
+      alert('Successfully registered!');
+    } catch (err: any) {
+      console.error('Error registering:', err);
+      alert(err.response?.data?.message || 'Failed to register');
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -51,11 +67,25 @@ const Events: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
+      {/* Gradient Hero Section */}
+      <section className="relative overflow-hidden py-20">
+        <div className="absolute inset-0 bg-gradient-to-br from-violet-900 via-purple-900 to-slate-900" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white">
+            Browse Events
+          </h1>
+          <p className="text-xl text-gray-300">
+            Discover upcoming events and join the ones you love.
+          </p>
+        </div>
+      </section>
+
+      {/* Search Bar */}
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
-            <h1 className="text-2xl font-bold text-gray-900">Discover Events</h1>
+            <h2 className="text-2xl font-bold text-gray-900">Discover Events</h2>
             <div className="relative w-full md:w-96">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
               <Input
@@ -70,6 +100,7 @@ const Events: React.FC = () => {
         </div>
       </header>
 
+      {/* Event Cards */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {filteredEvents.length === 0 ? (
           <div className="text-center py-12">
@@ -158,12 +189,12 @@ const Events: React.FC = () => {
                       )}
                     </div>
                   </div>
-                  <Link to={`/events/${event.id}`} className="block mt-4">
-                    <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 group/btn">
-                      View Details
-                      <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
-                    </Button>
-                  </Link>
+                  <Button
+                    onClick={() => handleRegister(event.id)}
+                    className="w-full bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 text-white mt-4"
+                  >
+                    Register
+                  </Button>
                 </CardContent>
               </Card>
             ))}

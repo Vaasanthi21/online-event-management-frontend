@@ -23,8 +23,13 @@ const Dashboard: React.FC = () => {
         api.get('/events/my-events'),
         api.get('/registrations/my-registrations'),
       ]);
+
+      // 👇 Debugging line to inspect API response
+      console.log("My Registrations API Response:", registrationsRes.data);
+
       setMyEvents(eventsRes.data.events);
-      setMyRegistrations(registrationsRes.data.registrations);
+      // Adjust in case backend returns data differently
+      setMyRegistrations(registrationsRes.data.registrations || registrationsRes.data || []);
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
     } finally {
@@ -41,7 +46,19 @@ const Dashboard: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
+      <section className="relative overflow-hidden py-20">
+        <div className="absolute inset-0 bg-gradient-to-br from-violet-900 via-purple-900 to-slate-900" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white">
+            Dashboard
+          </h1>
+          <p className="text-xl text-gray-300">
+            Manage your events and registrations in one place.
+          </p>
+        </div>
+      </section>
+
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>

@@ -45,13 +45,24 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setUser(user);
   };
 
-  const register = async (email: string, password: string, fullName: string, role: 'attendee' | 'organizer') => {
-    const response = await api.post('/auth/register', { email, password, fullName, role });
-    const { token, user } = response.data;
-    localStorage.setItem('token', token);
-    localStorage.setItem('user', JSON.stringify(user));
-    setUser(user);
-  };
+  const register = async (
+  email: string,
+  password: string,
+  fullName: string,
+  role: 'attendee' | 'organizer'
+) => {
+  const response = await api.post('/auth/register', {
+    email,
+    password,
+    fullName,   // must match backend exactly
+    role        // optional, backend ignores unless you add validation
+  });
+  const { token, user } = response.data;
+  localStorage.setItem('token', token);
+  localStorage.setItem('user', JSON.stringify(user));
+  setUser(user);
+};
+
 
   const logout = () => {
     localStorage.removeItem('token');

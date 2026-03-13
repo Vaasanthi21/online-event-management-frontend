@@ -99,20 +99,7 @@ const Sponsors: React.FC = () => {
     }
   };
 
-  const getTierIcon = (tier: string) => {
-    switch (tier) {
-      case 'platinum':
-        return <Crown className="h-5 w-5" />;
-      case 'gold':
-        return <Award className="h-5 w-5" />;
-      case 'silver':
-        return <Star className="h-5 w-5" />;
-      case 'bronze':
-        return <Gem className="h-5 w-5" />;
-      default:
-        return <Building2 className="h-5 w-5" />;
-    }
-  };
+  
 
   const getTierStyles = (tier: string) => {
     switch (tier) {
